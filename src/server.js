@@ -2,6 +2,10 @@ const app = require("./app");
 const express = require("express");
 const connectDatabase = require("./db/Database");
 const cloudinary = require("cloudinary");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const PORT = process.env.PORT || 3000;
 
 // apps.listen(3000);
 
@@ -12,11 +16,11 @@ process.on("uncaughtException", (err) => {
 });
 
 //config
-if (process.env.NODE_ENV !== "PRODUCTION") {
-  require("dotenv").config({
-    path: "backend/config/.env",
-  });
-}
+// if (process.env.NODE_ENV !== "PRODUCTION") {
+//   require("dotenv").config({
+//     path: "backend/config/.env",
+//   });
+// }
 
 //connect db
 connectDatabase();
@@ -29,7 +33,7 @@ cloudinary.config({
 
 //create server
 const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is running on https://localhost:${process.env.PORT}`);
+  console.log(`Server is running on https://localhost:${PORT}`);
 });
 
 //unhandledpromise rejection
