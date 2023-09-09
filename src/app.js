@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://click-market-frontend.vercel.app/",
+    origin: "https://click-market-frontend.vercel.app",
     credentials: true,
   })
 );
