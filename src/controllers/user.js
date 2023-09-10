@@ -20,7 +20,6 @@ const strongPasswordRegex =
 
 router.post("/create-user", async (req, res, next) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  console.log(sgMail.setApiKey(process.env.SENDGRID_API_KEY));
   try {
     const { name, email, password, active, avatar } = req.body;
     const userEmail = await User.findOne({ email });
