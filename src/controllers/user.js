@@ -65,14 +65,13 @@ router.post("/create-user", async (req, res, next) => {
     };
     const newUser = await User.create(user);
 
-    const verificationLink = `http://localhost:3000/verify-user/${newUser._id}`;
+    const verificationLink = `https://clickmarket.vercel.app/verify-user/${newUser._id}`;
 
     const msg = {
       to: email, // Change to your recipient
       from: "clickmarketsup@gmail.com", // Change to your verified sender
       subject: "¡Bienvenido a ClickMarket!",
-      text: "and easy to do anywhere, even with Node.js",
-      html: `Vertifica tu Email haciendo click <a href="${verificationLink}">Aquí</a>`,
+      html: `Te damos la bienvenida a <b>ClickMarket</b> tu supermercado de confianza, para confirmar tu cuenta hace click <a href="${verificationLink}">Aquí</a>`,
     };
     sgMail
       .send(msg)
