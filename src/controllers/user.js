@@ -10,15 +10,19 @@ const cloudinary = require("cloudinary");
 const jwt = require("jsonwebtoken");
 const sendToken = require("../utils/jwtToken");
 const catchAsyncError = require("../middleware/catchAsyncError");
-const Stripe = require("stripe")
+const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
+const sgMail = require("@sendgrid/mail");
+const user = require("../models/user");
 
 const strongPasswordRegex =
   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
 router.post("/create-user", async (req, res, next) => {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log(sgMail.setApiKey(process.env.SENDGRID_API_KEY));
   try {
-    const { name, email, password, avatar } = req.body;
+    const { name, email, password, active, avatar } = req.body;
     const userEmail = await User.findOne({ email });
 
     if (userEmail) {
@@ -57,13 +61,32 @@ router.post("/create-user", async (req, res, next) => {
       name: name,
       email: email,
       password: password,
+      active: active,
       avatar: avatarData,
     };
-
     const newUser = await User.create(user);
+
+    const verificationLink = `http://localhost:3000/verify-user/${newUser._id}`;
+
+    const msg = {
+      to: email, // Change to your recipient
+      from: "clickmarketsup@gmail.com", // Change to your verified sender
+      subject: "¡Bienvenido a ClickMarket!",
+      text: "and easy to do anywhere, even with Node.js",
+      html: `Vertifica tu Email haciendo click <a href="${verificationLink}">Aquí</a>`,
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log("Email sent");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     res.status(201).json({
       success: true,
-      message: `Tu cuenta ha sido creada correctamente!`,
+      message: `Te enviamos un mail para verificar tu cuenta`,
       newUser,
     });
   } catch (error) {
@@ -327,8 +350,6 @@ router.get(
 // active user --admin
 router.put(
   "/active-user/:id",
-  isAuthenticated,
-  isAdmin("Admin"),
   catchAsyncErrors(async (req, res, next) => {
     try {
       const userId = req.params.id;
@@ -339,15 +360,33 @@ router.put(
         return next(new ErrorHandler("Usuario no encontrado", 400));
       }
 
+      if (existingUser.active) {
+        return next(new ErrorHandler("Usuario ya verificado", 404));
+      }
+
       existingUser.active = updatedUserData.active;
 
       await existingUser.save();
 
       res.status(201).json({
         success: true,
-        message: "Usuario habilitado exitosamente",
+        message: "Usuario verificado exitosamente",
         updatedUser: existingUser,
       });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+//getUserName of userToVerify
+
+router.get(
+  "/get-user-to-verify/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.params.id);
+    try {
+      res.json(user);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
@@ -577,7 +616,6 @@ router.get(
     }
   })
 );
-
 
 // Quitar una orden del usuario
 router.delete(
