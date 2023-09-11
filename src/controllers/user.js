@@ -345,6 +345,36 @@ router.get(
   })
 );
 
+//enable or disable user for admin
+router.put(
+  "/active-user-for-admin/:id",
+  isAuthenticated,
+  isAdmin("Admin"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const userId = req.params.id;
+      const updatedUserData = req.body;
+
+      const existingUser = await User.findById(userId);
+      if (!existingUser) {
+        return next(new ErrorHandler("Usuario no encontrado", 400));
+      }
+
+      existingUser.active = updatedUserData.active;
+
+      await existingUser.save();
+
+      res.status(201).json({
+        success: true,
+        message: "Usuario habilitado exitosamente",
+        updatedUser: existingUser,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
 // active user --admin
 router.put(
   "/active-user/:id",
