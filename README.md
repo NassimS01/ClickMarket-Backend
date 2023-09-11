@@ -32,6 +32,9 @@ Este proyecto utiliza las siguientes dependencias:
 * **stripe:** Stripe es una plataforma de pagos en línea que facilita la aceptación de pagos en aplicaciones web y móviles.
 * **sendgrid:** Servicio para enviar correos electrónicos, utilizada para confirmar cuenta.
 
+## Aclaraciones
+* **stripe:** Stripe tiene limitaciones de carácteres en el modo desarrollador por ende a la hora de cargar más de dos productos no permite realizar la compra.
+Documentación: https://stripe.com/docs/api/metadata
 
 ## Empezando
 Para comenzar con el proyecto, sigue estos pasos:
