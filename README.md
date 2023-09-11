@@ -10,11 +10,13 @@ Este README te guiará a través de la configuración, uso y características de
 
 Dependencias
 
+Aclaraciones
+
 Empezando
 
-Contribuciones
-
 Deploy Final
+
+Contribuciones
 
 ## Dependencias
 
