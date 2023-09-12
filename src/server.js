@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // apps.listen(3000);
 
@@ -33,7 +33,7 @@ cloudinary.config({
 
 //create server
 const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is running on https://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 //unhandledpromise rejection
