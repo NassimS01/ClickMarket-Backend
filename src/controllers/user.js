@@ -124,7 +124,7 @@ router.post(
       if (!user.active) {
         return next(
           new ErrorHandler(
-            "La cuenta debe ser activada por un administrador",
+            "Primero debes verificar tu cuenta para poder acceder",
             400
           )
         );
