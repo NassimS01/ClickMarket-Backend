@@ -84,8 +84,8 @@ router.post(
         customer: customer.id,
         line_items,
         mode: "payment",
-        success_url: `${process.env.SERVER_URL}/profile/orders`,
-        cancel_url: `${process.env.SERVER_URL}/profile/cart`,
+        success_url: `https://clickmarket.vercel.app/profile/orders`,
+        cancel_url: `https://clickmarket.vercel.app/profile/cart`,
       });
 
       res.send({ url: session.url });
