@@ -18,6 +18,8 @@ const user = require("../models/user");
 const strongPasswordRegex =
   /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
+const validationName = /^[a-zA-Z]{1,12}$/;
+
 router.post("/create-user", async (req, res, next) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   try {
@@ -32,6 +34,15 @@ router.post("/create-user", async (req, res, next) => {
       return next(
         new ErrorHandler(
           "La contraseña debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula y un número.",
+          400
+        )
+      );
+    }
+
+    if (!validationName.test(name)) {
+      return next(
+        new ErrorHandler(
+          "El nombre de usuario puede contener 12 carácteres como máximo y sólo se admiten letras.",
           400
         )
       );
