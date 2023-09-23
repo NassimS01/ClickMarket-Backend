@@ -79,8 +79,8 @@ router.post("/create-user", async (req, res, next) => {
     const verificationLink = `https://clickmarket.vercel.app/verify-user/${newUser._id}`;
 
     const msg = {
-      to: email, // Change to your recipient
-      from: "clickmarketsup@gmail.com", // Change to your verified sender
+      to: email,
+      from: "clickmarketsup@gmail.com",
       subject: "¡Bienvenido a ClickMarket!",
       html: `Te damos la bienvenida a <b>ClickMarket</b> tu supermercado de confianza, para confirmar tu cuenta hace click <a href="${verificationLink}">Aquí</a>`,
     };
@@ -103,7 +103,6 @@ router.post("/create-user", async (req, res, next) => {
   }
 });
 
-// login user
 router.post(
   "/login-user",
   catchAsyncErrors(async (req, res, next) => {
@@ -148,7 +147,7 @@ router.post(
   })
 );
 
-// load user
+
 router.get(
   "/getuser",
   isAuthenticated,
@@ -170,7 +169,6 @@ router.get(
   })
 );
 
-// log out user
 router.get(
   "/logout",
   catchAsyncErrors(async (req, res, next) => {
@@ -191,7 +189,6 @@ router.get(
   })
 );
 
-// update user info
 router.put(
   "/update-user-info",
   isAuthenticated,
@@ -233,7 +230,7 @@ router.put(
   })
 );
 
-// update user avatar
+
 router.put(
   "/update-avatar",
   isAuthenticated,
@@ -268,7 +265,6 @@ router.put(
   })
 );
 
-// find user information with the userId
 router.get(
   "/user-info/:id",
   catchAsyncErrors(async (req, res, next) => {
@@ -285,7 +281,7 @@ router.get(
   })
 );
 
-// add product to user wishlist
+
 router.post(
   "/add-to-wishlist/:id",
   isAuthenticated,
@@ -313,7 +309,7 @@ router.post(
   })
 );
 
-// remove product from user wishlist
+
 router.delete(
   "/remove-from-wishlist/:id",
   isAuthenticated,
@@ -336,7 +332,7 @@ router.delete(
   })
 );
 
-// all users --- for admin
+
 router.get(
   "/admin-all-users",
   isAuthenticated,
@@ -356,7 +352,7 @@ router.get(
   })
 );
 
-//enable or disable user for admin
+
 router.put(
   "/active-user-for-admin/:id",
   isAuthenticated,
@@ -386,7 +382,7 @@ router.put(
   })
 );
 
-// active user --admin
+
 router.put(
   "/active-user/:id",
   catchAsyncErrors(async (req, res, next) => {
@@ -418,7 +414,6 @@ router.put(
   })
 );
 
-//getUserName of userToVerify
 
 router.get(
   "/get-user-to-verify/:id",
@@ -432,7 +427,7 @@ router.get(
   })
 );
 
-// delete users --- admin
+
 router.delete(
   "/delete-user/:id",
   isAuthenticated,
@@ -461,7 +456,7 @@ router.delete(
   })
 );
 
-// get user wishlist
+
 router.get(
   "/get-user-wishlist",
   isAuthenticated,
@@ -483,13 +478,12 @@ router.get(
   })
 );
 
-// get user cart
+
 router.get(
   "/get-user-cart",
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      // const user = await User.findById(req.user.id).populate("cart");
       const user = await User.findById(req.user.id);
 
       if (!user) {
@@ -506,7 +500,7 @@ router.get(
   })
 );
 
-// add product to user cart
+
 router.post(
   "/add-to-cart/:id",
   isAuthenticated,
@@ -538,7 +532,7 @@ router.post(
   })
 );
 
-// remove product from cart
+
 router.delete(
   "/remove-from-cart/:id",
   isAuthenticated,
@@ -564,7 +558,6 @@ router.delete(
   })
 );
 
-// add quantity item to cart
 
 router.post(
   "/increase-quantity/:id",
@@ -599,7 +592,7 @@ router.post(
   })
 );
 
-// decrease-quantity
+
 router.post(
   "/decrease-quantity/:id",
   isAuthenticated,
@@ -633,7 +626,6 @@ router.post(
   })
 );
 
-// get order
 
 router.get(
   "/get-user-order",
@@ -656,7 +648,7 @@ router.get(
   })
 );
 
-// Quitar una orden del usuario
+
 router.delete(
   "/remove-order/:orderId",
   isAuthenticated,
@@ -671,7 +663,6 @@ router.delete(
         return next(new ErrorHandler("Usuario no encontrado", 400));
       }
 
-      // Encontrar y quitar la orden según el orderId
       user.order = user.order.filter(
         (userOrder) => userOrder.orderId !== orderIdToRemove
       );

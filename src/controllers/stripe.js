@@ -95,9 +95,7 @@ router.post(
   })
 );
 
-// Create Order
 const createOrder = async (customer, data) => {
-  // const Items = JSON.parse(customer.metadata.cartItems);
 
   const newOrder = new Order({
     userId: customer.metadata.userId,
@@ -126,10 +124,7 @@ const createOrder = async (customer, data) => {
   }
 };
 
-// Stripe webhook
 let endpointSecret;
-
-// endpointSecret = "whsec_f10da141a1fc8b452ba3762b1e5c84196a123a537b4d8dc41c19205c63febfdf";
 
 router.post(
   "/webhook",
@@ -166,7 +161,6 @@ router.post(
         })
         .catch((err) => console.log(err.message));
     }
-    // Return a 200 response to acknowledge receipt of the event
     res.send().end();
   }
 );

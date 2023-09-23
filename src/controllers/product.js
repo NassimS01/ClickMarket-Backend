@@ -7,7 +7,7 @@ const Product = require("../models/product");
 const cloudinary = require("cloudinary");
 const { isAuthenticated, isAdmin } = require("../middleware/auth");
 
-// create product
+
 router.post(
     "/create-product",
     catchAsyncErrors(async (req, res, next) => {
@@ -29,17 +29,17 @@ router.post(
             });
 
             const product = {
-              name: productData.name,
-              description: productData.description,
-              category: productData.category,
-              price: productData.price,
-              discount: productData.discount,
-              stock: productData.stock,
-              quantity: 1,
-              images: {
-                public_id: myCloud.public_id,
-                url: myCloud.secure_url,
-              },
+                name: productData.name,
+                description: productData.description,
+                category: productData.category,
+                price: productData.price,
+                discount: productData.discount,
+                stock: productData.stock,
+                quantity: 1,
+                images: {
+                    public_id: myCloud.public_id,
+                    url: myCloud.secure_url,
+                },
             };
 
 
@@ -56,7 +56,6 @@ router.post(
 );
 
 
-// get all products
 router.get(
     "/get-all-products",
     catchAsyncErrors(async (req, res, next) => {
@@ -74,13 +73,12 @@ router.get(
 );
 
 
-// edit-product by ID
 router.put(
     "/edit-product/:id",
     catchAsyncErrors(async (req, res, next) => {
         try {
             const productId = req.params.id;
-            const { name, price, discount, description, category, stock, state} = req.body;
+            const { name, price, discount, description, category, stock, state } = req.body;
 
             const existingProduct = await Product.findById(productId);
             if (!existingProduct) {
@@ -110,7 +108,6 @@ router.put(
     })
 );
 
-// delete product by ID
 router.delete(
     "/delete-product/:id",
     isAuthenticated,
@@ -141,7 +138,6 @@ router.delete(
     })
 );
 
-// all products --- for admin
 router.get(
     "/admin-all-products",
     isAuthenticated,

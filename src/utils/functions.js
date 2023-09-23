@@ -4,7 +4,7 @@ export const getRandomProducts = (prodsArray, n) => {
     return copyProdsArray.sort(() => 0.5 - Math.random()).slice(0, n);
   } else {
     console.error("prodsArray is not a valid array.");
-    return []; // O manejo de error adecuado
+    return [];
   }
 };
 

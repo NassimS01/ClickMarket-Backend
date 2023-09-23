@@ -15,7 +15,7 @@ app.use(
     credentials: true,
   })
 );
-//config
+
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({
@@ -23,7 +23,6 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   });
 }
 
-//import routes
 const stripe = require("./controllers/stripe");
 const user = require("./controllers/user");
 const product = require("./controllers/product");
@@ -32,7 +31,6 @@ app.use("/api/v2/stripe", stripe);
 app.use("/api/v2/user", user);
 app.use("/api/v2/products", product);
 
-//it's for ErrorHandling
 app.use(ErrorHandler);
 
 module.exports = app;
